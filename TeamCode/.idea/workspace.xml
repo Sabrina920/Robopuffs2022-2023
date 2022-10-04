@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3ad91082-8adc-402d-9738-95a9c566e851" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/firstinspires/ftc/teamcode/ServoPositionFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/firstinspires/ftc/teamcode/ServoPositionFinder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/firstinspires/ftc/teamcode/TeleOpppp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/firstinspires/ftc/teamcode/TeleOpppp.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2IHz74eXlnSX1su7bY3TEknTs0M" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3ad91082-8adc-402d-9738-95a9c566e851" name="Changes" comment="" />
+      <created>1669853127833</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1669853127833</updated>
+    </task>
+    <servers />
+  </component>
+</project>
