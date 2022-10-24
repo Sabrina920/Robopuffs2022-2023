@@ -29,8 +29,10 @@
 
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
+import com.google.blocks.ftcrobotcontroller.runtime.CRServoAccess;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -55,6 +57,7 @@ import com.qualcomm.robotcore.util.Range;
 
 public class RobotHardware {
 
+
     /* Declare OpMode members. */
     private LinearOpMode myOpMode = null;   // gain access to methods in the calling OpMode.
 
@@ -73,8 +76,14 @@ public class RobotHardware {
     public static final double ARM_UP_POWER    =  0.45 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
 
+//Defines Wheel Motors
+public DcMotor frontLeftMotor;
+    public DcMotor frontRightMotor;
+    public DcMotor backLeftMotor;
+    public DcMotor backRightMotor;
+
     // Define a constructor that allows the OpMode to pass a reference to itself.
-    public RobotHardware (LinearOpMode opmode) {
+    public RobotHardware() {
         myOpMode = opmode;
     }
 
@@ -83,8 +92,9 @@ public class RobotHardware {
      * This method must be called ONCE when the OpMode is initialized.
      *
      * All of the hardware devices are accessed via the hardware map, and initialized.
+     * @param hardwareMap
      */
-    public void init()    {
+    public void init(HardwareMap hardwareMap)    {
         // Define and Initialize Motors (note: need to use reference to actual OpMode).
         leftDrive  = myOpMode.hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = myOpMode.hardwareMap.get(DcMotor.class, "right_drive");

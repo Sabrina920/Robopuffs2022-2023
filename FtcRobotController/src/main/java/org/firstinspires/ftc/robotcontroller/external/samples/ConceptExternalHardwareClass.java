@@ -70,7 +70,7 @@ public class ConceptExternalHardwareClass extends LinearOpMode {
 
     // Create a RobotHardware object to be used to access robot hardware.
     // Prefix any hardware functions with "robot." to access this class.
-    RobotHardware   robot       = new RobotHardware(this);
+    RobotHardware   robot       = new RobotHardware();
 
     @Override
     public void runOpMode() {
@@ -80,7 +80,7 @@ public class ConceptExternalHardwareClass extends LinearOpMode {
         double handOffset   = 0;
 
         // initialize all the hardware, using the hardware class. See how clean and simple this is?
-        robot.init();
+        robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
         // Wait for the game to start (driver presses PLAY)
