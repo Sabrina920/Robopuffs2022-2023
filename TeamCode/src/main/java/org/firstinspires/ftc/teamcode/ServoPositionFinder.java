@@ -114,7 +114,7 @@ public class ServoPositionFinder extends OpMode {
             y_down2 = Boolean.FALSE;
         }
         telemetry.addData("Oar Arm", stone_collector_arm_pos);
-        telemetry.addData("Oar Pincher", stone_collector_pos);
+        telemetry.addData("gripperServo", stone_collector_pos);
         telemetry.update();
     }
 

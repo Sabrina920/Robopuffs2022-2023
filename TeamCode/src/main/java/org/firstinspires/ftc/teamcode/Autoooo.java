@@ -30,6 +30,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -51,17 +52,17 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Basic: Linear OpMode", group="Linear Opmode")
-
+@Autonomous(name="Autoooo", group="Linear Opmode")
+@Disabled
 public class Autoooo extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    public DcMotor frontLeftMotor = null;
-    public DcMotor frontRightMotor = null;
-    public DcMotor backLeftMotor = null;
-    public DcMotor backRightMotor = null;
-    public DcMotor liftArmMotor = null;
+    public DcMotor frontLeftMotor;
+    public DcMotor frontRightMotor;
+    public DcMotor backLeftMotor;
+    public DcMotor backRightMotor;
+    public DcMotor liftArmMotor;
 
     // Calculate the COUNTS_PER_INCH for your specific drive train.
     // Go to your motor vendor website to determine your motor's COUNTS_PER_MOTOR_REV
