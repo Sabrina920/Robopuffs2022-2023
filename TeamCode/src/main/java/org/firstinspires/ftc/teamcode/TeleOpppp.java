@@ -65,8 +65,8 @@ public class TeleOpppp extends OpMode
     public DcMotor liftArmMotor;
     public Servo  gripperServo;
     public boolean servoopen = false;
-    public double openposition = 0;
-    public double closeposition = 1;
+    public double openposition = 1.0;
+    public double closeposition = 0.65;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -169,7 +169,8 @@ public class TeleOpppp extends OpMode
         backRightMotor.setPower(Range.clip((gamepad1.left_stick_y + (gamepad1.left_stick_x) - gamepad1.right_stick_x), -1, 1) * motorscale);
         telemetry.addData("lift power", Range.clip((gamepad2.left_stick_y), -1, 1));
         telemetry.addData("raw data", gamepad2.left_stick_y);
-        liftArmMotor.setPower(Range.clip((gamepad2.left_stick_y), -1, 1));
+        liftArmMotor.setPower(Range.clip(-(gamepad2.left_stick_y), -1, 1));
+        telemetry.addData("arm position:", liftArmMotor.getCurrentPosition() );
        /* if (gamepad2.left_stick_y <0) {
             liftArmMotor.setPower(Range.clip(-Math.pow(gamepad2.left_stick_y, 2), -1, 1));
         }
@@ -188,6 +189,7 @@ public class TeleOpppp extends OpMode
         }
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.addData("Servopostion:",gripperServo.getPosition() );
         telemetry.update();
     }
 
