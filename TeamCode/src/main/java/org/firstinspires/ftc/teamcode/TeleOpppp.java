@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -67,6 +68,7 @@ public class TeleOpppp extends OpMode
     public boolean servoopen = false;
     public double openposition = 1.0;
     public double closeposition = 0.65;
+    BNO055IMU imu;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -118,6 +120,14 @@ public class TeleOpppp extends OpMode
         frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
          liftArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        // Retrieve the IMU from the hardware map
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        // Technically this is the default, however specifying it is clearer
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        // Without this, data retrieving from the IMU throws an exception
+        imu.initialize(parameters);
+
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -143,43 +153,59 @@ public class TeleOpppp extends OpMode
      */
     @Override
     public void loop() {
-        // Setup a variable for each drive wheel to save power level for telemetry
-        double leftPower;
-        double rightPower;
+        double y = -gamepad1.left_stick_y; // Remember, this is reversed!
+        double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+        double rx = gamepad1.right_stick_x;
 
-        // Choose to drive using either Tank Mode, or POV Mode
-        // Comment out the method that's not used.  The default below is POV.
+        // Read inverse IMU heading, as the IMU heading is CW positive
+        double botHeading = -imu.getAngularOrientation().firstAngle;
 
-        // POV Mode uses left stick to go forward, and right stick to turn.
-        // - This uses basic math to combine motions and is easier to drive straight.
+        double rotX = x * Math.cos(botHeading) - y * Math.sin(botHeading);
+        double rotY = x * Math.sin(botHeading) + y * Math.cos(botHeading);
+
+        // Denominator is the largest motor power (absolute value) or 1
+        // This ensures all the powers maintain the same ratio, but only when
+        // at least one is out of the range [-1, 1]
+        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
+        double frontLeftPower = (rotY + rotX + rx) / denominator;
+        double backLeftPower = (rotY - rotX + rx) / denominator;
+        double frontRightPower = (rotY - rotX - rx) / denominator;
+        double backRightPower = (rotY + rotX - rx) / denominator;
+        frontLeftMotor.setPower(frontLeftPower);
+        frontRightMotor.setPower(frontRightPower);
+        backLeftMotor.setPower(backLeftPower);
+        backRightMotor.setPower(backRightPower);
 
 
-        // Tank Mode uses one stick to control each wheel.
-        // - This requires no math, but it is hard to drive forward slowly and keep straight.
-        // leftPower  = -gamepad1.left_stick_y ;
-        // rightPower = -gamepad1.right_stick_y ;
 
         // Send calculated power to wheels
         // motorscale multiply the power of the motors, and makes the motors go either faster or slower depending on the size of the number
         // to make the motors faster, increase the motor over 1.0; to decrease the motor, the number is lower than 1.0
-        double motorscale = 1.0;
-        frontRightMotor.setPower(Range.clip((-gamepad1.left_stick_y - (gamepad1.left_stick_x) - gamepad1.right_stick_x), -1, 1) * motorscale);
-        frontLeftMotor.setPower(Range.clip((gamepad1.left_stick_y - (gamepad1.left_stick_x) - gamepad1.right_stick_x), -1, 1) * motorscale);
-        backLeftMotor.setPower(Range.clip((-gamepad1.left_stick_y + (gamepad1.left_stick_x) - gamepad1.right_stick_x), -1, 1) * motorscale);
-        backRightMotor.setPower(Range.clip((gamepad1.left_stick_y + (gamepad1.left_stick_x) - gamepad1.right_stick_x), -1, 1) * motorscale);
+       /* double motorscale = 1.0;
+        double leftmotorscale = 1.05;
+        double rightmotorscale = 0.95;
+
+        frontRightMotor.setPower(Range.clip((-gamepad1.left_stick_y - (gamepad1.left_stick_x) - gamepad1.right_stick_x), -1, 1) * motorscale * rightmotorscale);
+        frontLeftMotor.setPower(Range.clip((gamepad1.left_stick_y - (gamepad1.left_stick_x) - gamepad1.right_stick_x), -1, 1) * motorscale * leftmotorscale);
+        backLeftMotor.setPower(Range.clip((-gamepad1.left_stick_y + (gamepad1.left_stick_x) - gamepad1.right_stick_x), -1, 1) * motorscale * leftmotorscale);
+        backRightMotor.setPower(Range.clip((gamepad1.left_stick_y + (gamepad1.left_stick_x) - gamepad1.right_stick_x), -1, 1) * motorscale * rightmotorscale); */
         telemetry.addData("lift power", Range.clip((gamepad2.left_stick_y), -1, 1));
         telemetry.addData("raw data", gamepad2.left_stick_y);
-        liftArmMotor.setPower(Range.clip(-(gamepad2.left_stick_y), -1, 1));
+      //  liftArmMotor.setPower(Range.clip(-(gamepad2.left_stick_y), -1, 1));
         telemetry.addData("arm position:", liftArmMotor.getCurrentPosition() );
-       /* if (gamepad2.left_stick_y <0) {
-            liftArmMotor.setPower(Range.clip(-Math.pow(gamepad2.left_stick_y, 2), -1, 1));
+       if (gamepad2.left_stick_y <0) {
+            liftArmMotor.setPower(Range.clip(Math.pow(gamepad2.left_stick_y, 2), -1, 1));
         }
         else
         {
-            liftArmMotor.setPower(Range.clip(Math.pow(gamepad2.left_stick_y, 2), -1, 1));
-        } */
-        if (gamepad2.a){
-            servoopen = !servoopen;
+            liftArmMotor.setPower(Range.clip(-Math.pow(gamepad2.left_stick_y, 2), -1, 1));
+        }
+        if (gamepad2.b){
+            servoopen = true;
+        }
+        else if (gamepad2.a){
+            servoopen = false;
+
         }
         if (servoopen){
             gripperServo.setPosition(openposition);

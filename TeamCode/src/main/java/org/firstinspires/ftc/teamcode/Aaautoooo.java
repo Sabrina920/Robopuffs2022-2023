@@ -102,15 +102,19 @@ public class Aaautoooo extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 3 seconds
-      frontLeftMotor.setPower(FORWARD_SPEED);
+      frontLeftMotor.setPower(-FORWARD_SPEED);
         frontRightMotor.setPower(FORWARD_SPEED);
-        backRightMotor.setPower(FORWARD_SPEED);
+        backRightMotor.setPower(-FORWARD_SPEED);
         backLeftMotor.setPower(FORWARD_SPEED);
         runtime.reset();
-        while (opModeIsActive() && (runtime.seconds() < 2.0)) {
+        while (opModeIsActive() && (runtime.seconds() < 1.5)) {
             telemetry.addData("Path", "Leg 1: %4.1f S Elapsed", runtime.seconds());
             telemetry.update();
         }
+        frontLeftMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backLeftMotor.setPower(0);
+        backRightMotor.setPower(0);
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.3)) {
@@ -118,10 +122,10 @@ public class Aaautoooo extends LinearOpMode {
             telemetry.update();
         }
 
-        // Step 3:  Drive Backward for 1 Second
+    /*   // Step 3:  Drive Backward for 1 Second
       frontLeftMotor.setPower(-FORWARD_SPEED);
-        frontRightMotor.setPower(-FORWARD_SPEED);
-        backLeftMotor.setPower(-FORWARD_SPEED);
+        frontRightMotor.setPower(FORWARD_SPEED);
+        backLeftMotor.setPower(FORWARD_SPEED);
         backRightMotor.setPower(-FORWARD_SPEED);
 
         runtime.reset();
@@ -135,7 +139,7 @@ public class Aaautoooo extends LinearOpMode {
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
-
+*/
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
