@@ -26,8 +26,10 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+//IMPORTS
 package org.firstinspires.ftc.teamcode;
+
+import static android.os.SystemClock.sleep;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -87,6 +89,8 @@ public class TeleOpppp extends OpMode
         liftArmMotor = hardwareMap.get(DcMotor.class, "liftArmMotor");
         gripperServo = hardwareMap.get (Servo.class, "gripperServo");
 
+
+
         //to set motor power
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
@@ -116,8 +120,8 @@ public class TeleOpppp extends OpMode
         //sets the direction of the wheels
         backLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontRightMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
          liftArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Retrieve the IMU from the hardware map
@@ -125,6 +129,7 @@ public class TeleOpppp extends OpMode
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         // Technically this is the default, however specifying it is clearer
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+
         // Without this, data retrieving from the IMU throws an exception
         imu.initialize(parameters);
 
@@ -154,7 +159,7 @@ public class TeleOpppp extends OpMode
     @Override
     public void loop() {
         double y = -gamepad1.left_stick_y; // Remember, this is reversed!
-        double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+        double x = gamepad1.left_stick_x * 1.0; // Counteract imperfect strafing
         double rx = gamepad1.right_stick_x;
 
         // Read inverse IMU heading, as the IMU heading is CW positive
@@ -171,6 +176,11 @@ public class TeleOpppp extends OpMode
         double backLeftPower = (rotY - rotX + rx) / denominator;
         double frontRightPower = (rotY - rotX - rx) / denominator;
         double backRightPower = (rotY + rotX - rx) / denominator;
+
+        liftArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+
         frontLeftMotor.setPower(frontLeftPower);
         frontRightMotor.setPower(frontRightPower);
         backLeftMotor.setPower(backLeftPower);

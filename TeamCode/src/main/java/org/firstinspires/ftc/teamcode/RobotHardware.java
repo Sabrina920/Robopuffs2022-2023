@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
 public class RobotHardware {
@@ -17,8 +18,11 @@ public class RobotHardware {
     public Servo  leftgripperServo;
     public Servo rightgripperServo;
     public boolean servoopen = false;
-    public double openposition = 1.0;
-    public double closeposition = 0.65;
+    public double leftopenposition = 1.0;
+    public double leftcloseposition = 0.65;
+    public double rightopenposition = 1.0;
+            public double rightcloseposition = 0.65;
+    public CRServo servo = null;
     BNO055IMU imu;
     public HardwareMap hardwareMap;
     public RobotHardware (HardwareMap hm) {
@@ -34,6 +38,7 @@ public class RobotHardware {
         liftArmMotor = hardwareMap.get(DcMotor.class, "liftArmMotor");
         leftgripperServo = hardwareMap.get (Servo.class, "leftgripperServo");
         rightgripperServo = hardwareMap.get (Servo.class, "rightgripperServo");
+        servo = hardwareMap.get(CRServo.class, "servo");
 
         //to set motor power
         frontLeftMotor.setPower(0);
@@ -43,6 +48,7 @@ public class RobotHardware {
         liftArmMotor.setPower(0);
         leftgripperServo.setPosition(0);
         rightgripperServo.setPosition(0);
+        servo.setPower(0);
 
         // set motor mode
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //...RunMode.RUN_TO_POSITION - for autonomous when you want to use encoder positions
@@ -66,6 +72,7 @@ public class RobotHardware {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         liftArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        servo.setDirection(CRServo.Direction.REVERSE);
 
         // Retrieve the IMU from the hardware map
         imu = hardwareMap.get(BNO055IMU.class, "imu");
