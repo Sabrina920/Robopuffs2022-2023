@@ -57,8 +57,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 
 @TeleOp(name="TeleOpppp", group="Iterative Opmode")
 
-public class TeleOpppp extends OpMode
-{
+public class TeleOpppp extends OpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     public DcMotor frontLeftMotor;
@@ -66,6 +65,7 @@ public class TeleOpppp extends OpMode
     public DcMotor backLeftMotor;
     public DcMotor backRightMotor;
     public DcMotor liftArmMotor;
+
     public Servo  gripperServo;
     public boolean servoopen = false;
     public double openposition = 1.0;
@@ -88,7 +88,6 @@ public class TeleOpppp extends OpMode
         backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
         liftArmMotor = hardwareMap.get(DcMotor.class, "liftArmMotor");
         gripperServo = hardwareMap.get (Servo.class, "gripperServo");
-
 
 
         //to set motor power

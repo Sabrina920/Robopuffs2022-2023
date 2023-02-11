@@ -9,24 +9,29 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
 public class RobotHardware {
+
     public ElapsedTime runtime = new ElapsedTime();
     public DcMotor frontLeftMotor;
     public DcMotor frontRightMotor;
     public DcMotor backLeftMotor;
     public DcMotor backRightMotor;
     public DcMotor liftArmMotor;
-    public Servo  leftgripperServo;
-    public Servo rightgripperServo;
+    public Servo scissorServo;
+
+
+    //public Servo  gripperServo;
     public boolean servoopen = false;
     public double leftopenposition = 1.0;
     public double leftcloseposition = 0.65;
     public double rightopenposition = 1.0;
-            public double rightcloseposition = 0.65;
-    public CRServo servo = null;
+    public double rightcloseposition = 0.65;
+
     BNO055IMU imu;
     public HardwareMap hardwareMap;
+
     public RobotHardware (HardwareMap hm) {
         hardwareMap = hm;
+
     }
 
 
@@ -35,27 +40,22 @@ public class RobotHardware {
         frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
         backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
         backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
-        liftArmMotor = hardwareMap.get(DcMotor.class, "liftArmMotor");
-        leftgripperServo = hardwareMap.get (Servo.class, "leftgripperServo");
-        rightgripperServo = hardwareMap.get (Servo.class, "rightgripperServo");
-        servo = hardwareMap.get(CRServo.class, "servo");
+        //gripperServo = hardwareMap.get (Servo.class, "gripperServo");
+        scissorServo = hardwareMap.get(Servo.class, "scissorServo");
 
         //to set motor power
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
-        liftArmMotor.setPower(0);
-        leftgripperServo.setPosition(0);
-        rightgripperServo.setPosition(0);
-        servo.setPower(0);
+       // gripperServo.setPosition(0);
+        scissorServo.setPosition(0.5);
 
         // set motor mode
         frontLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER); //...RunMode.RUN_TO_POSITION - for autonomous when you want to use encoder positions
         frontRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        liftArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         // set motor zeroPowerBehavior, if there is no power, it brakes
@@ -63,7 +63,6 @@ public class RobotHardware {
         frontRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeftMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRightMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //back motors and the front motors are forward
         //sets the direction of the wheels
@@ -72,7 +71,6 @@ public class RobotHardware {
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         liftArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        servo.setDirection(CRServo.Direction.REVERSE);
 
         // Retrieve the IMU from the hardware map
         imu = hardwareMap.get(BNO055IMU.class, "imu");
