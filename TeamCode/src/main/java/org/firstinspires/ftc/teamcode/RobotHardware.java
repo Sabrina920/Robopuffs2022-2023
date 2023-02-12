@@ -4,8 +4,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 
 public class RobotHardware {
@@ -17,38 +15,39 @@ public class RobotHardware {
     public DcMotor backRightMotor;
     public DcMotor liftArmMotor;
     public Servo scissorServo;
+    public Servo gripperServo;
 
 
     //public Servo  gripperServo;
     public boolean servoopen = false;
-    public double leftopenposition = 1.0;
-    public double leftcloseposition = 0.65;
-    public double rightopenposition = 1.0;
-    public double rightcloseposition = 0.65;
+    public double openposition = 0.19;
+    public double closeposition = -0.05;
 
+    public int ticks_in_degree;
     BNO055IMU imu;
     public HardwareMap hardwareMap;
+    /*
 
-    public RobotHardware (HardwareMap hm) {
+    public RobotHardware () {
         hardwareMap = hm;
 
     }
+*/
 
-
-    public void initialize() {
-        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
-        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
-        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
-        backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
-        //gripperServo = hardwareMap.get (Servo.class, "gripperServo");
-        scissorServo = hardwareMap.get(Servo.class, "scissorServo");
+    public void initialize(HardwareMap mp) {
+        frontLeftMotor = mp.get(DcMotor.class, "frontLeftMotor");
+        frontRightMotor = mp.get(DcMotor.class, "frontRightMotor");
+        backLeftMotor = mp.get(DcMotor.class, "backLeftMotor");
+        backRightMotor = mp.get(DcMotor.class, "backRightMotor");
+        gripperServo = mp.get (Servo.class, "gripperServo");
+        scissorServo = mp.get(Servo.class, "scissorServo");
 
         //to set motor power
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
         backLeftMotor.setPower(0);
         backRightMotor.setPower(0);
-       // gripperServo.setPosition(0);
+
         scissorServo.setPosition(0.5);
 
         // set motor mode
@@ -70,10 +69,10 @@ public class RobotHardware {
         frontLeftMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        liftArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        //liftArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // Retrieve the IMU from the hardware map
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu = mp.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         // Technically this is the default, however specifying it is clearer
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
