@@ -16,7 +16,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 @Autonomous(name="TheleAuto")
 public class TheoAuto extends LinearOpMode {
 
-    String silly = "";
+    String PolePOS = "";
     PolePipeline detector;
     PipelineNew detector2;
     private OpenCvCamera webcam;
@@ -91,11 +91,11 @@ public class TheoAuto extends LinearOpMode {
         .build();
         waitForStart();
 
-        PipelineNew.ParkingPosition goopa = detector2.getPosition();
+        PipelineNew.ParkingPosition parkingPosition = detector2.getPosition();
         sleep(1000);
         webcam.setPipeline(detector);
        // dashboard = FtcDashboard.getInstance();
-        
+
             drive.followTrajectory(traj1);
         drive.followTrajectory(traj11);
             drive.followTrajectory(traj4);
@@ -107,19 +107,19 @@ public class TheoAuto extends LinearOpMode {
             switch (detector.getCoords()) {
                 case LEFT:
                     goRight();
-                    silly = "ma; 😡😡🤬🤬🤬🤬🤬  ";
+                    PolePOS = "left";
                     break;
                 case RIGHT:
                     goLeft();
                     // ... turn left
-                    silly = "ma;   😡😡🤬🤬🤬🤬 ";
+                    PolePOS = "right";
                     break;
                 case CENTER:
                     // ...break
                     goStop();
-                    silly = "b  ongo 👌👌👌👌👍👍👍👍🙃🔝G💯💯💯💯💯💯💯💯💯(messi(real????)";
+                    PolePOS = "Perfect";
                     break lineuppole;
-                
+
             }
         }
 
@@ -138,9 +138,9 @@ public class TheoAuto extends LinearOpMode {
                 case CENTER:
                     // ...break
                     goStop();
-                    stage = autoStage.two; 
+                    stage = autoStage.two;
                     break polewidther;
-                    
+
             }
             sertSlide(0.5,1000);
             sertBar(1.0, (int) (rh.ticks_in_degree * 180));
@@ -154,7 +154,7 @@ public class TheoAuto extends LinearOpMode {
             //drop and reset
             sertSlide(-0.5,000);
             sertBar(-1,000);
-        } 
+        }
     } while (stage == autoStage.two){
 
         if ( i == 1){
@@ -168,15 +168,12 @@ public class TheoAuto extends LinearOpMode {
         drive.followTrajectory(traj3);
         //robot.claw.setPower(1);
         //TODO:set slide and grab
-        
+
         stage = autoStage.one;
     }
 }
-    
-    switch (goopa) {
-        case NOT_FOUND:
-            ///////////
-            stop();
+
+    switch (parkingPosition) {
         case LEFT:
             // ...
             drive.followTrajectory(traj5);
@@ -192,7 +189,7 @@ public class TheoAuto extends LinearOpMode {
     }
     webcam.stopStreaming();
         //handleDashboard();
-        telemetry.addData("PolePOS", silly);
+        telemetry.addData("PolePOS", PolePOS);
         }
         /*
     private void handleDashboard() {
@@ -208,7 +205,7 @@ public class TheoAuto extends LinearOpMode {
     }
     */
     private void goLeft(){
-    
+
         drive.setMotorPowers(-speedmulti, speedmulti, -speedmulti, speedmulti);
     }
     private void goRight(){
@@ -225,7 +222,7 @@ public class TheoAuto extends LinearOpMode {
     }
     private void sertSlide(double slidePower, int slideTop){
    /**     robot.lSlide1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.lSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);  
+            robot.lSlide2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.lSlide1.setTargetPosition(slideTop);
             robot.lSlide2.setTargetPosition(slideTop);
             robot.lSlide1.setPower(slidePower);
